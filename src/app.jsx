@@ -25,7 +25,7 @@ export default function App() {
         <ThemeProvider>
           <MotionLazy>
             <ProgressBar />
-            <SettingsDrawer />
+            {/* <SettingsDrawer /> */}
             <Router />
           </MotionLazy>
         </ThemeProvider>

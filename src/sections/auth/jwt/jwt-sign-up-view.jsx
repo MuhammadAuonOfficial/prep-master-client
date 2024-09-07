@@ -36,8 +36,11 @@ export const SignUpSchema = zod.object({
     .string()
     .min(1, { message: 'Password is required!' })
     .min(6, { message: 'Password must be at least 6 characters!' }),
+  gender: zod.enum(['male', 'female', 'other']),
+  phone: zod.string().min(1, { message: 'Phone is required!' }),
+  address: zod.string().min(1, { message: 'Address is required!' }),
+  role: zod.enum(['2', '3']),
 });
-
 // ----------------------------------------------------------------------
 
 export function JwtSignUpView() {
@@ -50,10 +53,14 @@ export function JwtSignUpView() {
   const [errorMsg, setErrorMsg] = useState('');
 
   const defaultValues = {
-    firstName: 'Hello',
-    lastName: 'Friend',
-    email: 'hello@gmail.com',
-    password: '@demo1',
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    gender: 'male',
+    phone: '',
+    address: '',
+    role: '3',
   };
 
   const methods = useForm({
@@ -73,7 +80,12 @@ export function JwtSignUpView() {
         password: data.password,
         firstName: data.firstName,
         lastName: data.lastName,
+        gender: data.gender,
+        phone: data.phone,
+        address: data.address,
+        role: parseInt(data.role),
       });
+      debugger;
       await checkUserSession?.();
 
       router.refresh();
@@ -107,6 +119,21 @@ export function JwtSignUpView() {
       </Stack>
 
       <Field.Text name="email" label="Email address" InputLabelProps={{ shrink: true }} />
+
+      <Field.Select native name="gender" labe="Gender">
+        <option value="male">Male</option>
+        <option value="female">Female</option>
+        <option value="other">Other</option>
+      </Field.Select>
+
+      <Field.Text name="phone" label="Phone number" InputLabelProps={{ shrink: true }} />
+
+      <Field.Text name="address" label="Address" InputLabelProps={{ shrink: true }} />
+
+      <Field.Select native name="role" label="I am">
+        <option value="2">Teacher</option>
+        <option value="3">Student</option>
+      </Field.Select>
 
       <Field.Text
         name="password"

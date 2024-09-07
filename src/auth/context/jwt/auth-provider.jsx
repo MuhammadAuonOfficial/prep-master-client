@@ -53,7 +53,7 @@ export function AuthProvider({ children }) {
       user: state.user
         ? {
             ...state.user,
-            role: state.user?.role ?? 'admin',
+            role: state.user?.role ?? 1,
           }
         : null,
       checkUserSession,

@@ -10,12 +10,12 @@ import { AuthGuard } from 'src/auth/guard';
 
 // ----------------------------------------------------------------------
 
-const IndexPage = lazy(() => import('src/pages/dashboard/one'));
-const PageTwo = lazy(() => import('src/pages/dashboard/two'));
-const PageThree = lazy(() => import('src/pages/dashboard/three'));
-const PageFour = lazy(() => import('src/pages/dashboard/four'));
-const PageFive = lazy(() => import('src/pages/dashboard/five'));
-const PageSix = lazy(() => import('src/pages/dashboard/six'));
+const TestApprovals = lazy(() => import('src/pages/dashboard/admin/test-approvals'));
+const TeachersApprovals = lazy(() => import('src/pages/dashboard/admin/teacher-approvals'));
+const CreateTestSeries = lazy(() => import('src/pages/dashboard/teacher/create-test-series'));
+const TeacherTestSeries = lazy(() => import('src/pages/dashboard/teacher/test-series'));
+const MyTestSeries = lazy(() => import('src/pages/dashboard/student/my-test-series'));
+const StudentTestSeries = lazy(() => import('src/pages/dashboard/student/test-series'));
 
 // ----------------------------------------------------------------------
 
@@ -32,15 +32,49 @@ export const dashboardRoutes = [
     path: 'dashboard',
     element: CONFIG.auth.skip ? <>{layoutContent}</> : <AuthGuard>{layoutContent}</AuthGuard>,
     children: [
-      { element: <IndexPage />, index: true },
-      { path: 'two', element: <PageTwo /> },
-      { path: 'three', element: <PageThree /> },
       {
-        path: 'group',
+        path: 'admin',
+        roles: [1],
         children: [
-          { element: <PageFour />, index: true },
-          { path: 'five', element: <PageFive /> },
-          { path: 'six', element: <PageSix /> },
+          {
+            path: 'test-approvals',
+            element: <test-approvals />,
+          },
+          {
+            path: 'teacher-approvals',
+            element: <TeachersApprovals />,
+          },
+        ],
+      },
+      {
+        path: 'teacher',
+
+        children: [
+          {
+            path: 'create-test-series',
+            element: <CreateTestSeries />,
+            roles: [2],
+          },
+          {
+            path: 'test-series',
+            element: <TeacherTestSeries />,
+            roles: [2],
+          },
+        ],
+      },
+      {
+        path: 'student',
+        children: [
+          {
+            path: 'test-series',
+            element: <StudentTestSeries />,
+            roles: [3],
+          },
+          {
+            path: 'my-test-series',
+            element: <MyTestSeries />,
+            roles: [3],
+          },
         ],
       },
     ],
